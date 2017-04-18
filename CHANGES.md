@@ -1,12 +1,12 @@
-#Changes:
+# Changes:
 
 19.07.2012: Allow passing of $params array to findAll() method; finder methods now internally use
 getRequest() which itself uses the query() method (instead of sendRequest()) to always allow
 caching for all GET requests by default.
 
-##Version 0.7:
+## Version 0.7:
 
-###1. Seperation of connection information and resource information:
+### 1. Seperation of connection information and resource information:
 The EActiveResourceConnection component now only holds information that is used
 by all resources using it as a connection like site,auth,ssl,contentType,acceptType. Resource
 specific information has to be defined in the rest() method of each resource.
@@ -58,19 +58,19 @@ Here's an example:
 		 		return 'mySecondService';
      		}
      		
-###2. Seperation between queries and data manipulating requests
+### 2. Seperation between queries and data manipulating requests
 In previous versions one could cache PUT, DELETE, POST requests which could lead to strange
 behaviors. By default, caching is only used by the finder methods which now use the query()
 function in EActiveResource instead of the sendRequest method used by all other methods.
 
-###3. BeforeFind events
+### 3. BeforeFind events
 All finder methods now fire a beforeFind event before they are executed.
 
-###4. 
+### 4. 
 
-##Version 0.6:
+## Version 0.6:
 
-###1. Added support for http auth
+### 1. Added support for http auth
 You can now use the authentication mechanisms provided by curl like basic or digest auth. To do that
 you'll have to add this to your resource config
 
@@ -90,7 +90,7 @@ you'll have to add this to your resource config
        		)),
        		'queryCacheId'=>'SomeCacheComponent')
        		
-###2. Url routes
+### 2. Url routes
 Every method (like findById)  now uses a route defined via the routes() method which by default
 looks like
 
@@ -127,7 +127,7 @@ Defining custom routes
     		////
     		$this->getRequest('fired') //GET to http://api.aRESTservice.com/people/fired
 
-###3. Url parameters
+### 3. Url parameters
 To make adding url parameters easier all xxxRequest methods allow passing in a params array
 
 			$this->getRequest('resource',array('fired'=>'true'))
@@ -135,7 +135,7 @@ To make adding url parameters easier all xxxRequest methods allow passing in a p
 			$this->postRequest('collection',array('return'=>'json'),$data)
 			//POST to http://api.aRESTservice.com/people?return=json with data defined in $data
 			
-###4. SSL support
+### 4. SSL support
 You can use https by defining the ssl array in your resource config
 
 			'activeresource'=>array(
@@ -157,13 +157,13 @@ You can use https by defining the ssl array in your resource config
 To understand what these options do I recommend reading
 http://unitstep.net/blog/2009/05/05/using-curl-in-php-to-access-https-ssltls-protected-sites/
 
-###5. Error tracing
+### 5. Error tracing
 Tracing info now includes headers and curl information for even better debugging
 			
-##Version 0.5:
+## Version 0.5:
 This probably is the biggest update so far
 
-###1. Schema definition:
+### 1. Schema definition:
 When defining a model you now have to define its properties and datatypes so that only the
 properties you define will get loaded. To do this you'll have to override the properties method like
 this:
@@ -184,20 +184,20 @@ that a change in one of the resource APIs will kill your system. If a new proper
 a service which isn't defined in your properties() the property will simply be ignored by 
 ActiveResource.
 
-###2. Attribute labels:
+### 2. Attribute labels:
 Attribute labels now work as expected
 
-###3. Removed support for embedded resources
+### 3. Removed support for embedded resources
 The embedded resources added a lot of complexity and are a relatively rare use case. If you need
 a feature like that you'll have to implement that on your own which probably is the best solution.
 
-###4. Changed private attributes to protected 
+### 4. Changed private attributes to protected 
 This should allow extending classes more easily now.
 
 
-##Version 0.4 (not backwards compatible!):
+## Version 0.4 (not backwards compatible!):
 
-###1. Introducing EActiveResourceConnection 
+### 1. Introducing EActiveResourceConnection 
 Instead of defining the rest() array within the EActiveResource model all configurations are now made within the Yii config using the "activeresource" application component.
 Example: 
 
@@ -215,7 +215,7 @@ Example:
        		
 The rest() method still exists, but retrieves the configuration array from the 'activeresource' component now. Feel free to overwrite this method if you want to create some customized rest configurations
        		
-###2. Caching
+### 2. Caching
 Version 0.4 now enables caching of responses. Example:
 ~~~
 [php]
@@ -223,15 +223,15 @@ Version 0.4 now enables caching of responses. Example:
 ~~~
 will cache the response of the service for 10 seconds. The syntax is the same as with CActiveRecord, so you can set dependencies (no CDbCacheDependency for obvious reasons) and query count.
 
-###3. Custom headers
+### 3. Custom headers
 Custom headers now fully replace standard headers so 'contenttype' and 'accepttype' as defined in the config will be ignored and will have to be set manually in such a case
 
-###4. sendRequest method moved from EActiveResource to EActiveResourceConnection
+### 4. sendRequest method moved from EActiveResource to EActiveResourceConnection
 The idea is to provide better seperation between the model and the connection layer
 
-##Version 0.3 (not backwards compatible!):
+## Version 0.3 (not backwards compatible!):
 
-###1. Fully object oriented approach for requests/responses 
+### 1. Fully object oriented approach for requests/responses 
 A request now always creates an EActiveResourceRequest object (which now has several setter methods for url, data, content/accept types,headers etc.) and returns an EActiveResourceResponse object which essentually is an object encapsulating the curl response. So instead of writing
 
 ~~~
@@ -246,7 +246,7 @@ $response=$this->getRequest()->getInfo(); //to get curl specific info
 
 ~~~
 
-###2. Custom headers
+### 2. Custom headers
 There are cases when one has to get/set headers (authorization,pagination of results etc.). You can now do this by passing a header array to the request functions like
 
 ~~~
@@ -261,10 +261,10 @@ $responseHeader=$response->getHeader(); //will give you an array of header infor
 
 ~~~
 
-###3. Change in naming convention for exceptions
+### 3. Change in naming convention for exceptions
 For better readibility all error responses now throw EActiveResourceRequestException_EXPETIONTYPE (e.g.:EActiveResourceRequestException_NotFound) exceptions. Take that into account when catching them
 
-###4. Manual creation of request
+### 4. Manual creation of request
 Because of the object oriented approach you are now able to create a request without using the convenient $this->xxxRequest() methods
 
 ~~~
